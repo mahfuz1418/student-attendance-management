@@ -186,36 +186,43 @@
 
             <!-- Attendance Report -->
             <li>
-                <a href="/attendance-report" class="nav-link {{ request()->is('attendance-report*') ? 'active' : '' }}">
+                <a href="{{ route('attendance.report') }}" class="nav-link {{ request()->is('attendance-report*') ? 'active' : '' }}">
                     <i class="bi bi-bar-chart"></i> Attendance Report
                 </a>
+
             </li>
         @endif
 
         @if(auth()->user()->role == 'teacher')
-    <li class="sidebar-label">Teacher</li>
+            <li class="sidebar-label">Teacher</li>
 
-    <!-- Dashboard -->
-    <li>
-        <a href="{{ route('teacher') }}" class="nav-link {{ request()->routeIs('teacher') ? 'active' : '' }}">
-            <i class="bi bi-grid"></i> Dashboard
-        </a>
-    </li>
+            <!-- Dashboard -->
+            <li>
+                <a href="{{ route('teacher') }}" class="nav-link {{ request()->routeIs('teacher') ? 'active' : '' }}">
+                    <i class="bi bi-grid"></i> Dashboard
+                </a>
+            </li>
 
-    <!-- Take Attendance -->
-    <li>
-        <a href="{{ route('teacher.courses') }}" class="nav-link {{ request()->is('take-attendance*') ? 'active' : '' }}">
-            <i class="bi bi-pencil-square"></i> Take Attendance
-        </a>
-    </li>
+            <!-- Take Attendance -->
+            <li>
+                <a href="{{ route('teacher.courses') }}" class="nav-link {{ request()->is('take-attendance*') ? 'active' : '' }}">
+                    <i class="bi bi-pencil-square"></i> Take Attendance
+                </a>
+            </li>
 
-    <!-- My Classes -->
-    <li>
-        <a href="/my-classes" class="nav-link {{ request()->is('my-classes*') ? 'active' : '' }}">
-            <i class="bi bi-journal-bookmark"></i> My Classes
-        </a>
-    </li>
-@endif
+            <li>
+                <a href="{{ route('teacher.attendance.report') }}"
+                class="nav-link {{ request()->is('teacher/attendance-report*') ? 'active' : '' }}">
+                    <i class="bi bi-bar-chart"></i> Attendance Report
+                </a>
+            </li>
+            <!-- My Classes -->
+            <li>
+                <a href="/my-classes" class="nav-link {{ request()->is('my-classes*') ? 'active' : '' }}">
+                    <i class="bi bi-journal-bookmark"></i> My Classes
+                </a>
+            </li>
+        @endif
 
         @if(auth()->user()->role == 'student')
             <li class="sidebar-label">Student</li>
@@ -229,7 +236,8 @@
 
             <!-- My Attendance -->
             <li>
-                <a href="/my-attendance" class="nav-link {{ request()->is('my-attendance*') ? 'active' : '' }}">
+                <a href="{{ route('student.attendance') }}"
+                class="nav-link {{ request()->is('my-attendance*') ? 'active' : '' }}">
                     <i class="bi bi-calendar-check"></i> My Attendance
                 </a>
             </li>

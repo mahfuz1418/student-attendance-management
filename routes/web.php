@@ -75,6 +75,15 @@ Route::middleware(['auth'])->group(function(){
 
         // Submit attendance
         Route::post('/take-attendance/{course}', [AttendanceController::class,'storeAttendance'])->name('teacher.attendance.store');
+        Route::get('/teacher/attendance-report', [AttendanceController::class, 'teacherReport'])
+            ->name('teacher.attendance.report');
+    });
+
+    Route::get('/attendance-report', [AttendanceController::class, 'report'])->name('attendance.report');
+
+    Route::middleware(['auth','role:student'])->group(function () {
+        Route::get('/my-attendance', [AttendanceController::class, 'studentAttendance'])
+            ->name('student.attendance');
     });
 
 });

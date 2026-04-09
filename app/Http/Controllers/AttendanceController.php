@@ -50,4 +50,62 @@ class AttendanceController extends Controller
 
         return redirect()->route('teacher.courses')->with('success', 'Attendance submitted successfully.');
     }
+
+    public function report(Request $request)
+    {
+        $courses = Course::all();
+
+        $query = Attendance::with(['student', 'course']);
+
+        // Filter by course
+        if ($request->course_id) {
+            $query->where('course_id', $request->course_id);
+        }
+
+        // Filter by date
+        if ($request->date) {
+            $query->whereDate('date', $request->date);
+        }
+
+        $attendances = $query->latest()->get();
+
+        return view('admin.attendance-report', compact('attendances', 'courses'));
+    }
+
+    public function teacherReport(Request $request)
+    {
+        $teacher = auth()->user();
+
+        // Get teacher's assigned courses
+        $courses = $teacher->teacherCourses;
+
+        $query = Attendance::with(['student','course'])
+            ->whereIn('course_id', $courses->pluck('id'));
+
+        // Filter by course
+        if ($request->course_id) {
+            $query->where('course_id', $request->course_id);
+        }
+
+        // Filter by date
+        if ($request->date) {
+            $query->whereDate('date', $request->date);
+        }
+
+        $attendances = $query->latest()->get();
+
+        return view('teacher.attendance-report', compact('attendances','courses'));
+    }
+
+    public function studentAttendance()
+    {
+        $student = auth()->user();
+
+        $attendances = Attendance::with('course')
+            ->where('student_id', $student->id)
+            ->latest()
+            ->get();
+
+        return view('student.attendance-report', compact('attendances'));
+    }
 }

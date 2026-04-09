@@ -1,4 +1,8 @@
 @extends('layouts.app')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- REQUIRED -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 @section('content')
 
 <h3>Course Assignment</h3>
@@ -34,7 +38,7 @@
           <td>
             <form action="{{ route('assign.teacher.update', $teacher->id) }}" method="POST">
               @csrf
-              <select name="course_ids[]" multiple class="form-select">
+              <select name="course_ids[]" multiple class="form-select select2">
                 @foreach($courses as $course)
                   <option value="{{ $course->id }}"
                     {{ $teacher->teacherCourses->contains($course->id) ? 'selected' : '' }}>
@@ -70,7 +74,7 @@
           <td>
             <form action="{{ route('assign.student.update', $student->id) }}" method="POST">
               @csrf
-              <select name="course_ids[]" multiple class="form-select">
+              <select name="course_ids[]" multiple class="form-select select2">
                 @foreach($courses as $course)
                   <option value="{{ $course->id }}"
                     {{ $student->studentCourses->contains($course->id) ? 'selected' : '' }}>
@@ -91,3 +95,12 @@
 </div>
 
 @endsection
+
+<script>
+$(document).ready(function() {
+    $('.select2').select2({
+        placeholder: "Select courses",
+        allowClear: true
+    });
+});
+</script>
